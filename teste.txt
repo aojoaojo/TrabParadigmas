@@ -1,0 +1,52 @@
+O IDProc e um processador de 8 bits simplificado, que possui os seguintes registradores:
+• ACC - Registrador acumulador de 8 bits, que recebe valores de -128 a 127;
+• BNK - Registrador de backup, para guardar conteudo proveniente do acumulador;
+• IPT - Regitrador ponteiro de instrução, que aponta para a próxima instrução a ser executada;
+• NIL - Registrador nulo, que nao possui funcionalidade; ˜
+O IDProc devera receber um programa em linguagem de máquina, a partir de um arquivo (extensão .idp), que possui no maximo 32 instruções e rótulos, sendo uma instrução por linha desse arquivo.
+O IDProc possui as seguintes instruções:
+• NOP - “No operation”, nao faz nada;
+NOP
+• MOV - Move o valor do imediato para o registrador (ACC ou NIL);
+MOV <reg> <imediato>
+• SAV - Salva o valor do acumulador no registrador de backup;
+SAV
+• SWP - Troca o valor do acumulador com o valor do registrador de backup;
+SWP
+• NEG - Inverte o sinal do acumulador;
+NEG
+• ADD - Soma o valor do imediato com o valor do acumulador;
+ADD <imediato>
+• SUB - Subtrai o valor do imediato com o valor do acumulador;
+SUB <imediato>
+• PNT - Imprime o valor do acumulador;
+PNT
+• JMP - Salta para a instrução indicada pelo rótulo;
+JMP <rótulo>
+• JEQ - Salta para a instrução indicada pelo rótulo, se o valor do acumulador for igual a zero;
+JEQ <rótulo>
+• JNZ - Salta para a instrução indicada pelo rótulo, se o valor do acumulador for diferente de zero;
+JNZ <rótulo>
+• JGZ - Salta para a instrução indicada pelo rótulo, se o valor do acumulador for maior que zero;
+JGZ <rótulo>
+• JLZ - Salta para a instrução indicada pelo rótulo, se o valor do acumulador for menor que zero;
+JLZ <rótulo>
+
+Rotulos são identificadores que indicam o endereço de uma instrução. Eles são definidos da seguinte por uma palavra unica, seguida de dois pontos, e podem ser utilizados em qualquer instrução que exija um rotulo. Exemplo de código com rótulo:
+INICIO:
+JNZ FINAL
+MOV ACC 10
+PNT
+JMP INICIO
+FINAL:
+NOP
+O programa acima imprime o numero 10 e termina, saltando para FINAL, uma vez que o acumulador é diferente de zero.
+Ao início do funcionamento do processador, ao receber um arquivo de programa, este arquivo deve passar pelo processo de parser, que ira identificar possíveis erros de sintaxe, como arquivos invalidos, instruções invalidas, rótulos inválidos, rótulos duplicados, programas inválidos e até valores ou registradores inválidos.
+Esse passo de validação do arquivo de programa, deverá ser feito antes da execução do programa, o qual não permitirá a execução do mesmo, caso o arquivo de programa seja inválido (retornando uma mensagem de erro adequada).
+Esteja atento para detectar erros de sintaxe e semantica também em tempo de execução.
+
+Ja no início da execução do programa, o registrador IPT deveá apontar para a primeira instrução do programa, e os registradores BAK e ACC deverao ter seu valor inicializado com zero. A cada instrução executada, o registrador IPT devera apontar para a próxima instrução a ser executada. Repare que, o único meio de aceso ao registrador BAK, e por meio das instruções SAV e SWP.
+O processador devera executar o programa até que o registrador IPT aponte para uma instrução inválida, ou seja, uma posição de instrução após o número de instruções do programa.
+
+2.2. Sumário
+Ao final do trabalho, o aluno-trainee devera entregar o projeto de implementação do processador, bem como a documentação descrevendo o processo de implementação, escolhas pertinentes relativas a linguagem de programação escolhida e demonstração de funcionamento do projeto. Através deste processo, o aluno estará apto a ampliar seu conhecimento e compreensao de linguagens de programação modernas, bem como a tomar decisoes fundamentadas ao escolher a linguagem mais adequada para projetos futuros. 
