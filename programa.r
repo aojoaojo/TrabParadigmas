@@ -6,7 +6,6 @@ NIL <- 0  # Registrador nulo
 
 # Função para executar a instrução NOP
 NOP <- function() {
-  # Não faz nada
   return(NULL)
 }
 
@@ -17,7 +16,7 @@ MOV <- function(reg, imediato) {
     ACC <<- imediato
   } else if (reg == "NIL") {
     NIL <<- imediato
-  } else {
+  } else {i
     print("Registrador inválido!")
   }
 }
@@ -123,6 +122,7 @@ JLZ <- function(rotulo) {
 # Dicionário de rótulos
 rotulos <- list()
 
+
 # Função para fazer o parse do arquivo de programa
 parseProgram <- function(arquivo) {
   instrucoes <- readLines(arquivo)
@@ -148,7 +148,7 @@ parseProgram <- function(arquivo) {
           print("Rótulo duplicado!")
           return(FALSE)
         } else {
-          rotulos[[rotulo]] <- numInstrucoes + 1
+          rotulos[[rotulo]] <- numInstrucoes + 1 
         }
         
         # Remover o rótulo da instrução
@@ -259,6 +259,7 @@ parseProgram <- function(arquivo) {
     print("Programa inválido!")
     return(FALSE)
   }
+
   
   return(TRUE)
 }
@@ -358,5 +359,6 @@ executarPrograma <- function(arquivo) {
   }
 }
 
+debug(parseProgram)
 # Executar o programa
-executarPrograma("programa.txt")
+executarPrograma("/home/rafanog/Desktop/TrabParadigmas/prog-correto-01.idp")
