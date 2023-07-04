@@ -56,13 +56,13 @@ PNT <- function() {
 
 # Função para executar a instrução JMP
 JMP <- function(rotulo) {
-  # Verificar se o rótulo é válido
-  # if (obterPosicaoRotulo(rotulo) != -1) {
-  #   obterPosicaoRotulo(rotulo)
-  # } else {
-  #   print("Rótulo inválido!")
-  # }
-  obterPosicaoRotulo(rotulo)
+  #Verificar se o rótulo é válido
+  if (verificaRotulo(rotulo) != -1) {
+    obterPosicaoRotulo(rotulo)
+  } else {
+    print("Rótulo inválido!")
+  }
+  # obterPosicaoRotulo(rotulo)
 }
 
 # Função para executar a instrução JEQ
@@ -121,26 +121,50 @@ obterPosicaoRotulo <- function(rotulo) {
       IPT <<- i + 1
     }
   }
-  
   # return(posicao)
+}
+verificaRotulo <- function(rotulo) {
+  posicao <- 0
+  flag <- 0
+  # Verificar cada instrução no programa em busca do rótulo
+  for (i in 1:length(programa)) {
+    instrucao <- programa[i]
+    novo <- paste(rotulo, ":" , sep = "")
+    if(instrucao == novo) {
+      flag <- 1
+    }
+  }
+  if(flag == 0)
+  {
+    return(-1)
+  }
+  return (1)
+  
 }
 
 # Função para executar o programa
 program <- function(instrucoes) {
   programa <<- instrucoes
+
+  if(length(programa) == 0)
+  {
+    print("Programa vazio!")
+    return(NULL)
+  }
+
   # Executar as instruções do programa
   while (IPT <= length(programa)) {
     instrucao <- programa[IPT]
+
     # Separar a instrução e seus argumentos
     partes <- strsplit(instrucao, " ")[[1]]
     comando <- partes[1]
     argumento <- partes[2]
     
-    # Executar a instrução correspondente
-    # print(IPT)
+
     IPT <<- IPT + 1
     
-
+    # Executar a instrução
     if (comando == "NOP") {
       NOP()
       # print("NOP ok")
@@ -215,8 +239,8 @@ program <- function(instrucoes) {
 }
 
 # Exemplo de programa
-instrucoes <- readLines("/mnt/c/Users/rafae/Desktop/trab_jeremias/TrabParadigmas/prog-errado-05.idp")
-#/home/rafanog/Desktop/TrabParadigmas/prog-correto-05.idp
+instrucoes <- readLines("/mnt/c/Users/rafae/Desktop/trab_jeremias/TrabParadigmas/prog-errado-04.idp")
+#/home/rafanog/Desktop/TrabParadigmas/prog-errado-03.idp
 # debug(SUB)
 
 # Executar o programa
