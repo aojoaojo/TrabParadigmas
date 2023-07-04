@@ -57,11 +57,12 @@ PNT <- function() {
 # Função para executar a instrução JMP
 JMP <- function(rotulo) {
   # Verificar se o rótulo é válido
-  if (obterPosicaoRotulo(rotulo) != -1) {
-    IPT <<- obterPosicaoRotulo(rotulo)
-  } else {
-    print("Rótulo inválido!")
-  }
+  # if (obterPosicaoRotulo(rotulo) != -1) {
+  #   obterPosicaoRotulo(rotulo)
+  # } else {
+  #   print("Rótulo inválido!")
+  # }
+  obterPosicaoRotulo(rotulo)
 }
 
 # Função para executar a instrução JEQ
@@ -85,6 +86,13 @@ JGZ <- function(rotulo) {
   }
 }
 
+# Função para executar a instrução JLZ
+JLZ <- function(rotulo) {
+  if (ACC < 0) {
+    JMP(rotulo)
+  }
+}
+
 # Função para executar a instrução JZ
 JZ <- function(rotulo) {
   if (ACC == 0) {
@@ -94,13 +102,6 @@ JZ <- function(rotulo) {
 
 # Função para executar a instrução JS
 JS <- function(rotulo) {
-  if (ACC < 0) {
-    JMP(rotulo)
-  }
-}
-
-# Função para executar a instrução JLZ
-JLZ <- function(rotulo) {
   if (ACC < 0) {
     JMP(rotulo)
   }
@@ -117,27 +118,29 @@ obterPosicaoRotulo <- function(rotulo) {
     instrucao <- programa[i]
     novo <- paste(rotulo, ":" , sep = "")
     if(instrucao == novo) {
-      posicao <<- i
+      IPT <<- i + 1
     }
   }
   
-  return(posicao)
+  # return(posicao)
 }
 
 # Função para executar o programa
 program <- function(instrucoes) {
   programa <<- instrucoes
-  
   # Executar as instruções do programa
-  for (i in 1:length(programa)) {
-    instrucao <- programa[i]
-    
+  while (IPT <= length(programa)) {
+    instrucao <- programa[IPT]
     # Separar a instrução e seus argumentos
     partes <- strsplit(instrucao, " ")[[1]]
     comando <- partes[1]
     argumento <- partes[2]
     
     # Executar a instrução correspondente
+    # print(IPT)
+    IPT <<- IPT + 1
+    
+
     if (comando == "NOP") {
       NOP()
       # print("NOP ok")
@@ -145,56 +148,56 @@ program <- function(instrucoes) {
       reg <- argumento
       imediato <- as.numeric(partes[3])
       MOV(reg, imediato)
-      # print("MOV ok")
+    #   print("MOV ok")
     } else if (comando == "SAV") {
       SAV()
-      # print("SAV ok")
+    #   print("SAV ok")
     } else if (comando == "SWP") {
       SWP()
-      # print("SWP ok")
+    #   print("SWP ok")
     } else if (comando == "NEG") {
       NEG()
-      # print("NEG ok")
+    #   print("NEG ok")
     } else if (comando == "ADD") {
       imediato <- as.numeric(partes[2])
       ADD(imediato)
-      # print("ADD ok")
+    #   print("ADD ok")
     } else if (comando == "SUB") {
       imediato <- as.numeric(partes[2])
       SUB(imediato)
-      # print("SUB ok")
+    #   print("SUB ok")
     } else if (comando == "PNT") {
       PNT()
-      # print("PNT ok")
+    #   print("PNT ok")
     } else if (comando == "JMP") {
       rotulo <- argumento
       JMP(rotulo)
-      # print("JMP ok")
+    #   print("JMP ok")
     } else if (comando == "JEQ") {
       rotulo <- argumento
       JEQ(rotulo)
-      # print("JEQ ok")
+    #   print("JEQ ok")
     } else if (comando == "JNZ") {
       rotulo <- argumento
       JNZ(rotulo)
-      # print("JNZ ok")
+    #   print("JNZ ok")
     } else if (comando == "JGZ") {
       rotulo <- argumento
       JGZ(rotulo)
-      # print("JGZ ok")
+    #   print("JGZ ok")
     } else if (comando == "JZ") {
       rotulo <- argumento
       JZ(rotulo)
-      # print("JZ ok")
-    } else if (comando == "JS") {
-      rotulo <- argumento
-      JS(rotulo)
-      # print("JS ok")
+    #   print("JZ ok")
     } else if (comando == "JLZ") {
       rotulo <- argumento
       JLZ(rotulo)
-      # print("JS ok")
-    } #Verificar se a instrução é um rótulo
+    #   print("JLZ ok")
+    } else if (comando == "JS") {
+      rotulo <- argumento
+      JS(rotulo)
+    #   print("JS ok")
+    }  #Verificar se a instrução é um rótulo
     else if (endsWith(comando, ":")) {
       # Remover o ":" para comparar com o rótulo fornecido
       r <- substr(instrucao, 1, nchar(instrucao) - 1)
@@ -212,7 +215,9 @@ program <- function(instrucoes) {
 }
 
 # Exemplo de programa
-instrucoes <- readLines("prog-correto-05.idp")
+instrucoes <- readLines("/mnt/c/Users/rafae/Desktop/trab_jeremias/TrabParadigmas/prog-errado-05.idp")
+#/home/rafanog/Desktop/TrabParadigmas/prog-correto-05.idp
+# debug(SUB)
 
 # Executar o programa
 program(instrucoes)
