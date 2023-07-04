@@ -99,6 +99,13 @@ JS <- function(rotulo) {
   }
 }
 
+# Função para executar a instrução JLZ
+JLZ <- function(rotulo) {
+  if (ACC < 0) {
+    JMP(rotulo)
+  }
+}
+
 # debug(obterPosicaoRotulo)
 
 # Função para obter a posição de um rótulo no programa
@@ -133,57 +140,61 @@ program <- function(instrucoes) {
     # Executar a instrução correspondente
     if (comando == "NOP") {
       NOP()
-      print("NOP ok")
+      # print("NOP ok")
     } else if (comando == "MOV") {
       reg <- argumento
       imediato <- as.numeric(partes[3])
       MOV(reg, imediato)
-      print("MOV ok")
+      # print("MOV ok")
     } else if (comando == "SAV") {
       SAV()
-      print("SAV ok")
+      # print("SAV ok")
     } else if (comando == "SWP") {
       SWP()
-      print("SWP ok")
+      # print("SWP ok")
     } else if (comando == "NEG") {
       NEG()
-      print("NEG ok")
+      # print("NEG ok")
     } else if (comando == "ADD") {
       imediato <- as.numeric(partes[2])
       ADD(imediato)
-      print("ADD ok")
+      # print("ADD ok")
     } else if (comando == "SUB") {
       imediato <- as.numeric(partes[2])
       SUB(imediato)
-      print("SUB ok")
+      # print("SUB ok")
     } else if (comando == "PNT") {
       PNT()
-      print("PNT ok")
+      # print("PNT ok")
     } else if (comando == "JMP") {
       rotulo <- argumento
       JMP(rotulo)
-      print("JMP ok")
+      # print("JMP ok")
     } else if (comando == "JEQ") {
       rotulo <- argumento
       JEQ(rotulo)
-      print("JEQ ok")
+      # print("JEQ ok")
     } else if (comando == "JNZ") {
       rotulo <- argumento
       JNZ(rotulo)
-      print("JNZ ok")
+      # print("JNZ ok")
     } else if (comando == "JGZ") {
       rotulo <- argumento
       JGZ(rotulo)
-      print("JGZ ok")
+      # print("JGZ ok")
     } else if (comando == "JZ") {
       rotulo <- argumento
       JZ(rotulo)
-      print("JZ ok")
+      # print("JZ ok")
     } else if (comando == "JS") {
       rotulo <- argumento
       JS(rotulo)
-      print("JS ok")
-    }  #Verificar se a instrução é um rótulo
+      # print("JS ok")
+    } else if (comando == "JLZ") {
+      rotulo <- argumento
+      JLZ(rotulo)
+      # print("JS ok")
+    } #Verificar se a instrução é um rótulo
     else if (endsWith(comando, ":")) {
       # Remover o ":" para comparar com o rótulo fornecido
       r <- substr(instrucao, 1, nchar(instrucao) - 1)
@@ -201,9 +212,7 @@ program <- function(instrucoes) {
 }
 
 # Exemplo de programa
-instrucoes <- readLines("/home/rafanog/Desktop/TrabParadigmas/prog-correto-04.idp")
-
-# debug(obterPosicaoRotulo)
+instrucoes <- readLines("prog-correto-05.idp")
 
 # Executar o programa
 program(instrucoes)
