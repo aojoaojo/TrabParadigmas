@@ -141,7 +141,6 @@ program <- function(instrucoes) {
     partes <- strsplit(instrucao, " ")[[1]]
     comando <- partes[1]
     argumento <- partes[2]
-    
 
     IPT <<- IPT + 1
     
@@ -191,13 +190,17 @@ program <- function(instrucoes) {
     else if (endsWith(comando, ":")) {
       # Se for rotulo, não aponta erro
     }
+    else if(substr(comando, 1, 1) == '#')
+    {
+      # Se for comentário, não aponta erro
+    }
     else {
       print("Instrução inválida!")
     }
   }
 }
 
-instrucoes <- readLines("/mnt/c/Users/rafae/Desktop/trab_paradigmas/TrabParadigmas/prog-correto-05.idp")
+instrucoes <- readLines("path/do/seu/arquivo/aqui")
 
 # Executar o programa
 program(instrucoes)
